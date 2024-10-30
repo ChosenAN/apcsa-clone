@@ -4,7 +4,7 @@ public class Player extends Actor
 {
     private int speed = 4;
     private int size = 30;
-    private boolean isAlive = true;
+    private boolean alive = true;  // Changed from isAlive to alive
 
     public Player()
     {
@@ -16,7 +16,7 @@ public class Player extends Actor
 
     public void act()
     {
-        if (isAlive) {
+        if (alive) {  // Changed from isAlive to alive
             movePlayer();
             checkCollision();
         }
@@ -46,10 +46,16 @@ public class Player extends Actor
 
     private void checkCollision()
     {
-        Actor enemy = getOneIntersectingObject(Enemy.class);
+        Actor enemy = getOneIntersectingObject(BaseEnemy.class);
         if (enemy != null) {
-            isAlive = false;
+            alive = false;  // Changed from isAlive to alive
             ((MyWorld)getWorld()).gameOver();
         }
+    }
+    
+    // Add getter method for alive status
+    public boolean isAlive()
+    {
+        return alive;
     }
 }

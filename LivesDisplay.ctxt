@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=LivesDisplay
+comment1.params=
+comment1.target=LivesDisplay()
+comment2.params=
+comment2.target=void\ updateImage()
+comment3.params=image\ x\ y\ size
+comment3.target=void\ drawHeart(greenfoot.GreenfootImage,\ int,\ int,\ int)
+comment4.params=newLives
+comment4.target=void\ update(int)
+numComments=5
