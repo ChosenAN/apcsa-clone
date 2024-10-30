@@ -4,7 +4,7 @@ public class ChaseEnemy extends BaseEnemy
 {
     public ChaseEnemy()
     {
-        super(3, Color.BLUE);
+        super(4, Color.BLUE);
     }
     
     @Override

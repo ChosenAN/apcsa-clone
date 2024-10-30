@@ -24,16 +24,16 @@ public class Player extends Actor
 
     private void movePlayer()
     {
-        if (Greenfoot.isKeyDown("left")) {
+        if (Greenfoot.isKeyDown("left") || Greenfoot.isKeyDown("a")) {
             setLocation(getX() - speed, getY());
         }
-        if (Greenfoot.isKeyDown("right")) {
+        if (Greenfoot.isKeyDown("right")|| Greenfoot.isKeyDown("d")) {
             setLocation(getX() + speed, getY());
         }
-        if (Greenfoot.isKeyDown("up")) {
+        if (Greenfoot.isKeyDown("up")|| Greenfoot.isKeyDown("w")) {
             setLocation(getX(), getY() - speed);
         }
-        if (Greenfoot.isKeyDown("down")) {
+        if (Greenfoot.isKeyDown("down")|| Greenfoot.isKeyDown("s")) {
             setLocation(getX(), getY() + speed);
         }
 

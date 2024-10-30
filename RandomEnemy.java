@@ -28,7 +28,9 @@ public class RandomEnemy extends BaseEnemy
         
         if (atWorldEdge()) {
             direction += 180;
-            if (direction >= 360) direction -= 360;
+            if (direction >= 360) {
+                direction -= 360;
+            }
         }
     }
 }
