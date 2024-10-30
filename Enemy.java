@@ -1,152 +1,51 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
-/**
- * Write a description of class Enemy here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class Enemy extends Actor
 {
-    private int speed = 10; // adjust this value to change the enemy's speed
-    private int direction = 0; // current direction
-    private int steps = 0; // number of steps to move in the current direction
-    private int maxSteps; // maximum number of steps to move in a direction
+    private int speed;
+    private int size = 20;
+    private int direction;
+    private int moveCounter = 0;
+    private int moveTime;
 
-    /**
-     * Constructor for objects of class Enemy.
-     */
-    public Enemy()
+    public Enemy(int speed)
     {
-        // Call the resizeImage method to resize the image
-        resizeImage();
-
-        // Set the maximum number of steps to a random value between 10 and 50
-        maxSteps = Greenfoot.getRandomNumber(40) + 10;
+        this.speed = speed;
+        setImage(new GreenfootImage(size, size));
+        GreenfootImage img = getImage();
+        img.setColor(Color.RED);
+        img.fillOval(0, 0, size-1, size-1);
+        
+        direction = Greenfoot.getRandomNumber(360);
+        moveTime = Greenfoot.getRandomNumber(50) + 50;
     }
 
-    /**
-     * Resize the enemy's image
-     */
-    public void resizeImage()
-    {
-        GreenfootImage image = getImage();
-        image.scale(20, 20);
-        setImage(image);
-    }
-
-    /**
-     * Act - do whatever the Enemy wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
     public void act()
     {
-        // Move the enemy randomly
-        moveRandomly();
+        move();
+        checkBounds();
     }
 
-    /**
-     * Move the enemy randomly
-     */
-    private void moveRandomly()
+    private void move()
     {
-        if (steps == 0) {
-            // Choose a new direction
-            direction = Greenfoot.getRandomNumber(8);
-            steps = maxSteps;
+        moveCounter++;
+        if (moveCounter >= moveTime) {
+            direction = Greenfoot.getRandomNumber(360);
+            moveCounter = 0;
+            moveTime = Greenfoot.getRandomNumber(50) + 50;
         }
+        
+        setRotation(direction);
+        move(speed);
+    }
 
-        switch (direction) {
-            case 0:
-                moveUp();
-                break;
-            case 1:
-                moveDown();
-                break;
-            case 2:
-                moveLeft();
-                break;
-            case 3:
-                moveRight();
-                break;
-            case 4:
-                moveUpLeft();
-                break;
-            case 5:
-                moveUpRight();
-                break;
-            case 6:
-                moveDownLeft();
-                break;
-            case 7:
-                moveDownRight();
-                break;
+    private void checkBounds()
+    {
+        if (getX() <= 0 || getX() >= getWorld().getWidth()-1) {
+            direction = 180 - direction;
         }
-
-        steps--;
-    }
-
-    /**
-     * Move the enemy up
-     */
-    private void moveUp()
-    {
-        setLocation(getX(), getY() - speed);
-    }
-
-    /**
-     * Move the enemy down
-     */
-    private void moveDown()
-    {
-        setLocation(getX(), getY() + speed);
-    }
-
-    /**
-     * Move the enemy left
-     */
-    private void moveLeft()
-    {
-        setLocation(getX() - speed, getY());
-    }
-
-    /**
-     * Move the enemy right
-     */
-    private void moveRight()
-    {
-        setLocation(getX() + speed, getY());
-    }
-
-    /**
-     * Move the enemy up and left
-     */
-    private void moveUpLeft()
-    {
-        setLocation(getX() - speed, getY() - speed);
-    }
-
-    /**
-     * Move the enemy up and right
-     */
-    private void moveUpRight()
-    {
-        setLocation(getX() + speed, getY() - speed);
-    }
-
-    /**
-     * Move the enemy down and left
-     */
-    private void moveDownLeft()
-    {
-        setLocation(getX() - speed, getY() + speed);
-    }
-
-    /**
-     * Move the enemy down and right
-     */
-    private void moveDownRight()
-    {
-        setLocation(getX() + speed, getY() + speed);
+        if (getY() <= 0 || getY() >= getWorld().getHeight()-1) {
+            direction = 360 - direction;
+        }
     }
 }

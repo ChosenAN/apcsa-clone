@@ -1,46 +1,55 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
-/**
- * Write a description of class Player here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class Player extends Actor
 {
-    private int speed = 5;
-    
-    public void resizeImage()
+    private int speed = 4;
+    private int size = 30;
+    private boolean isAlive = true;
+
+    public Player()
     {
-        GreenfootImage image = getImage();
-        image.scale(20, 20);
-        setImage(image);
+        setImage(new GreenfootImage(size, size));
+        GreenfootImage img = getImage();
+        img.setColor(Color.YELLOW);
+        img.fillOval(0, 0, size-1, size-1);
     }
-    /**
-     * Act - do whatever the Player wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
+
     public void act()
     {
-        // Check if the left arrow key is pressed
+        if (isAlive) {
+            movePlayer();
+            checkCollision();
+        }
+    }
+
+    private void movePlayer()
+    {
         if (Greenfoot.isKeyDown("left")) {
-            // Move the player to the left
-            move(-speed);
+            setLocation(getX() - speed, getY());
         }
-        // Check if the right arrow key is pressed
         if (Greenfoot.isKeyDown("right")) {
-            // Move the player to the right
-            move(speed);
+            setLocation(getX() + speed, getY());
         }
-        // Check if the up arrow key is pressed
         if (Greenfoot.isKeyDown("up")) {
-            // Move the player up
             setLocation(getX(), getY() - speed);
         }
-        // Check if the down arrow key is pressed
         if (Greenfoot.isKeyDown("down")) {
-            // Move the player down
             setLocation(getX(), getY() + speed);
+        }
+
+        // Keep player within bounds
+        if (getX() < 0) setLocation(0, getY());
+        if (getX() > getWorld().getWidth()-1) setLocation(getWorld().getWidth()-1, getY());
+        if (getY() < 0) setLocation(getX(), 0);
+        if (getY() > getWorld().getHeight()-1) setLocation(getX(), getWorld().getHeight()-1);
+    }
+
+    private void checkCollision()
+    {
+        Actor enemy = getOneIntersectingObject(Enemy.class);
+        if (enemy != null) {
+            isAlive = false;
+            ((MyWorld)getWorld()).gameOver();
         }
     }
 }
