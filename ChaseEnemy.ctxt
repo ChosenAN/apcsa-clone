@@ -1,7 +1,7 @@
 #BlueJ class context
 comment0.target=ChaseEnemy
-comment1.params=
-comment1.target=ChaseEnemy()
+comment1.params=speed
+comment1.target=ChaseEnemy(int)
 comment2.params=
 comment2.target=void\ act()
 numComments=3

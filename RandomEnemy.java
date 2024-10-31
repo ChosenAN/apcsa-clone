@@ -6,9 +6,9 @@ public class RandomEnemy extends BaseEnemy
     private int moveTime;
     private int direction;
     
-    public RandomEnemy()
+    public RandomEnemy(int speed)
     {
-        super(2, Color.RED);
+        super(speed, Color.RED);
         direction = Greenfoot.getRandomNumber(360);
         moveTime = Greenfoot.getRandomNumber(50) + 50;
     }

@@ -5,9 +5,9 @@ public class BounceEnemy extends BaseEnemy
     private int xSpeed;
     private int ySpeed;
     
-    public BounceEnemy()
+    public BounceEnemy(int speed)
     {
-        super(4, Color.GREEN);
+        super(speed, Color.GREEN);
         // Initialize random direction
         double angle = Math.toRadians(Greenfoot.getRandomNumber(360));
         xSpeed = (int)(Math.cos(angle) * speed);

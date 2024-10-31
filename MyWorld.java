@@ -6,15 +6,22 @@ public class MyWorld extends World
     private boolean enemiesActive = true;
     private int level = 1;
     private int score = 0;
-    private int enemiesPerLevel = 5; // Starting number of enemies
     private ScoreBoard scoreBoard;
     private LevelDisplay levelDisplay;
     private Player player;
     private boolean gameOver = false;
+    private int levelTimer = 0;
+    private static final int LEVEL_DURATION = 1200; // 20 seconds at 60 fps
+    private static final int MAX_LEVEL = 5;
+    private int protectedTime = 180; // 3 seconds of protected time at 60 fps
 
     public MyWorld()
     {    
-        super(800, 600, 1); 
+        super(800, 600, 1);
+        // Set black background
+        GreenfootImage background = getBackground();
+        background.setColor(Color.BLACK);
+        background.fill();
         prepare();
     }
 
@@ -36,27 +43,60 @@ public class MyWorld extends World
     {
         removeObjects(getObjects(BaseEnemy.class));
         
-        int enemiesToSpawn = enemiesPerLevel + (level - 1) * 2;
+        int bounceEnemies = 0;
+        int randomEnemies = 0;
+        int chaseEnemies = 0;
         
-        for (int i = 0; i < enemiesToSpawn; i++) {
-            int enemyType = Greenfoot.getRandomNumber(3);
+        switch(level) {
+            case 1:
+                bounceEnemies = 5;
+                break;
+            case 2:
+                bounceEnemies = 3;
+                randomEnemies = 3;
+                break;
+            case 3:
+                bounceEnemies = 2;
+                randomEnemies = 3;
+                chaseEnemies = 2;
+                break;
+            case 4:
+                bounceEnemies = 1;
+                randomEnemies = 4;
+                chaseEnemies = 3;
+                break;
+            case 5:
+                randomEnemies = 3;
+                chaseEnemies = 5;
+                break;
+        }
+        
+        spawnEnemyType(bounceEnemies, "BounceEnemy");
+        spawnEnemyType(randomEnemies, "RandomEnemy");
+        spawnEnemyType(chaseEnemies, "ChaseEnemy");
+    }
+
+    private void spawnEnemyType(int count, String enemyType)
+    {
+        for (int i = 0; i < count; i++) {
             int x = Greenfoot.getRandomNumber(getWidth());
             int y = Greenfoot.getRandomNumber(getHeight());
             
             BaseEnemy enemy;
-            switch (enemyType) {
-                case 0:
-                    enemy = new RandomEnemy();
+            switch(enemyType) {
+                case "BounceEnemy":
+                    enemy = new BounceEnemy(2 + level);
                     break;
-                case 1:
-                    enemy = new ChaseEnemy();
+                case "RandomEnemy":
+                    enemy = new RandomEnemy(1 + level);
                     break;
-                case 2:
-                    enemy = new BounceEnemy();
+                case "ChaseEnemy":
+                    enemy = new ChaseEnemy(2 + level);
                     break;
                 default:
-                    enemy = new RandomEnemy();
+                    enemy = new RandomEnemy(1 + level);
             }
+            
             addObject(enemy, x, y);
         }
     }
@@ -70,32 +110,72 @@ public class MyWorld extends World
     public void act()
     {
         if (!gameOver) {
-            checkLevelCompletion();
+            levelTimer++;
+            if (protectedTime > 0) {
+                protectedTime--;
+                if (protectedTime % 10 == 0) {  // Flash the player every 10 acts
+                    player.toggleVisibility();
+                }
+                if (protectedTime == 0) {
+                    player.setVisible(true);  // Ensure player is visible when protection ends
+                }
+            }
+            if (levelTimer >= LEVEL_DURATION) {
+                nextLevel();
+            }
         }
         if (gameOver && Greenfoot.isKeyDown("r")) {
             Greenfoot.setWorld(new MyWorld());
         }
     }
 
-    private void checkLevelCompletion()
+    private void nextLevel()
     {
-        if (getObjects(BaseEnemy.class).isEmpty()) {
-            levelUp();
+        level++;
+        if (level > MAX_LEVEL) {
+            gameWon();
+        } else {
+            resetLevel();
         }
     }
 
-    private void levelUp()
+    private void resetLevel()
     {
-        level++;
-        score += level * 100; // Bonus points for completing level
-        scoreBoard.update("Score: " + score);
+        levelTimer = 0;
+        protectedTime = 180;  // Reset protected time
+        
+        showText("Level " + level, getWidth()/2, getHeight()/2);
+        Greenfoot.delay(180);
+        showText("", getWidth()/2, getHeight()/2);
+        
         levelDisplay.update("Level: " + level);
+        
+        player.setLocation(getWidth()/2, getHeight()/2);
+        player.setVisible(true);  // Ensure player is visible at start of level
+        
+        removeObjects(getObjects(BaseEnemy.class));
         spawnEnemies();
+        
+        score += (level - 1) * 100;
+        scoreBoard.update("Score: " + score);
     }
 
     public void gameOver()
     {
         gameOver = true;
+        removeObjects(getObjects(BaseEnemy.class));
         showText("GAME OVER\nFinal Score: " + score + "\nPress 'R' to restart", getWidth()/2, getHeight()/2);
+    }
+
+    private void gameWon()
+    {
+        gameOver = true;
+        removeObjects(getObjects(BaseEnemy.class));
+        showText("Congratulations! You've completed all levels!\nFinal Score: " + score + "\nPress 'R' to play again", getWidth()/2, getHeight()/2);
+    }
+
+    public boolean isProtected()
+    {
+        return protectedTime > 0;
     }
 }

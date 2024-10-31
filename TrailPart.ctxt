@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=TrailPart
+comment1.params=size\ invincible
+comment1.target=TrailPart(int,\ boolean)
+comment2.params=transparency
+comment2.target=void\ setTransparency(int)
+comment3.params=invincible
+comment3.target=void\ setInvincible(boolean)
+numComments=4

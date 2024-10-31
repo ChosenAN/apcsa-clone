@@ -2,9 +2,9 @@ import greenfoot.*;
 
 public class ChaseEnemy extends BaseEnemy
 {
-    public ChaseEnemy()
+    public ChaseEnemy(int speed)
     {
-        super(4, Color.BLUE);
+        super(speed, Color.BLUE);
     }
     
     @Override
