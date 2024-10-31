@@ -6,7 +6,7 @@ public class Player extends Actor
     private double vx = 0, vy = 0;
     private double drag = 0.95;
     private double acceleration = 0.5;
-    private double maxSpeed = 5;
+    private double maxSpeed = 7;
     private int size = 30;
     private boolean alive = true;
     private boolean isVisible = true;
@@ -63,13 +63,16 @@ public class Player extends Actor
         }
 
         // Update position
-        setLocation(getX() + (int)vx, getY() + (int)vy);
+        int newX = getX() + (int)Math.round(vx);
+        int newY = getY() + (int)Math.round(vy);
 
         // Keep player within bounds
-        if (getX() < 0) { setLocation(0, getY()); vx = 0; }
-        if (getX() > getWorld().getWidth()-1) { setLocation(getWorld().getWidth()-1, getY()); vx = 0; }
-        if (getY() < 0) { setLocation(getX(), 0); vy = 0; }
-        if (getY() > getWorld().getHeight()-1) { setLocation(getX(), getWorld().getHeight()-1); vy = 0; }
+        if (newX < 0) { newX = 0; vx = 0; }
+        if (newX > getWorld().getWidth()-1) { newX = getWorld().getWidth()-1; vx = 0; }
+        if (newY < 0) { newY = 0; vy = 0; }
+        if (newY > getWorld().getHeight()-1) { newY = getWorld().getHeight()-1; vy = 0; }
+
+        setLocation(newX, newY);
     }
 
     private void updateTrail()
@@ -153,7 +156,7 @@ public class Player extends Actor
     public void updateForLevel(int level)
     {
         // Adjust player properties based on level
-        maxSpeed = 5 + (level * 0.5);
+        maxSpeed = 7 + (level * 0.5);
         trailLength = 10 + (level * 2);
     }
     
