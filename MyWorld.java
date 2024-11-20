@@ -1,10 +1,9 @@
 import greenfoot.*;
 import java.util.List;
 
-public class MyWorld extends World
-{
+public class MyWorld extends World {
     private boolean enemiesActive = true;
-    private int level = 1;
+    private int level = 5;
     private int score = 0;
     private ScoreBoard scoreBoard;
     private LevelDisplay levelDisplay;
@@ -12,12 +11,11 @@ public class MyWorld extends World
     private boolean gameOver = false;
     private int levelTimer = 0;
     private static final int LEVEL_DURATION = 1200; // 20 seconds at 60 fps
-    private static final int MAX_LEVEL = 5;
+    private static final int MAX_LEVEL = 10; // Update to 10 levels
     private int protectedTime = 180; // 3 seconds of protected time at 60 fps
 
-    public MyWorld()
-    {    
-        super(800, 600, 1);
+    public MyWorld() {    
+        super(1600, 800, 1);
         // Set black background
         GreenfootImage background = getBackground();
         background.setColor(Color.BLACK);
@@ -25,8 +23,7 @@ public class MyWorld extends World
         prepare();
     }
 
-    private void prepare()
-    {
+    private void prepare() {
         player = new Player();
         addObject(player, getWidth()/2, getHeight()/2);
 
@@ -39,8 +36,7 @@ public class MyWorld extends World
         spawnEnemies();
     }
 
-    private void spawnEnemies()
-    {
+    private void spawnEnemies() {
         removeObjects(getObjects(BaseEnemy.class));
         
         int bounceEnemies = 0;
@@ -69,13 +65,37 @@ public class MyWorld extends World
                 randomEnemies = 3;
                 chaseEnemies = 5;
                 break;
+            case 6:
+                bounceEnemies = 4;
+                randomEnemies = 5;
+                chaseEnemies = 3;
+                break;
+            case 7:
+                bounceEnemies = 3;
+                randomEnemies = 4;
+                chaseEnemies = 5;
+                break;
+            case 8:
+                bounceEnemies = 2;
+                randomEnemies = 6;
+                chaseEnemies = 6;
+                break;
+            case 9:
+                bounceEnemies = 1;
+                randomEnemies = 7;
+                chaseEnemies = 7;
+                break;
+            case 10:
+                bounceEnemies = 0;
+                randomEnemies = 8;
+                chaseEnemies = 8;
+                break;
         }
         
         spawnEnemyType(bounceEnemies, "BounceEnemy");
         spawnEnemyType(randomEnemies, "RandomEnemy");
         spawnEnemyType(chaseEnemies, "ChaseEnemy");
     }
-
     private void spawnEnemyType(int count, String enemyType)
     {
         for (int i = 0; i < count; i++) {
