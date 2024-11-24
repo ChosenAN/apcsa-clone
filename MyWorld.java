@@ -3,7 +3,7 @@ import java.util.List;
 
 public class MyWorld extends World {
     private boolean enemiesActive = true;
-    private int level = 1;
+    private int level = 2;
     private int score = 0;
     private ScoreBoard scoreBoard;
     private LevelDisplay levelDisplay;
