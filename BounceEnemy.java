@@ -1,14 +1,13 @@
 import greenfoot.*;
 import java.util.List;
+
 public class BounceEnemy extends BaseEnemy {
     private int xSpeed;
     private int ySpeed;
 
     public BounceEnemy(int speed) {
         super(speed);
-        GreenfootImage playerImage = new GreenfootImage("greenalien.png");
-        setImage(playerImage);
-        // Initialize random direction
+        setImage(new GreenfootImage("greenalien.png"));
         double angle = Math.toRadians(Greenfoot.getRandomNumber(360));
         xSpeed = (int)(Math.cos(angle) * speed);
         ySpeed = (int)(Math.sin(angle) * speed);
@@ -16,32 +15,41 @@ public class BounceEnemy extends BaseEnemy {
 
     @Override
     public void act() {
-        // Move
-        setLocation(getX() + xSpeed, getY() + ySpeed);
-
-        // Check bounds and bounce
-        if (getX() <= 0 || getX() >= getWorld().getWidth() - 1) {
-            xSpeed = -xSpeed;
-        }
-        if (getY() <= 0 || getY() >= getWorld().getHeight() - 1) {
-            ySpeed = -ySpeed;
-        }
-
-        // Check for collisions with other enemies
+        move();
         checkCollision();
-
-        // Ensure staying within bounds
-        stayInBounds();
     }
 
-    private void checkCollision() {
-        List<BaseEnemy> enemies = getWorld().getObjects(BaseEnemy.class);
-        for (BaseEnemy enemy : enemies) {
-            if (enemy != this && isTouching(enemy.getClass())) {
-                // Reverse direction upon collision
-                xSpeed = -xSpeed;
-                ySpeed = -ySpeed;
+    private void move() {
+        setLocation(getX() + xSpeed, getY() + ySpeed);
+        if (atWorldEdge()) {
+            bounceOffWall();
+        }
+    }
+
+    private void bounceOffWall() {
+        // Reflecting off wall
+        if (getX() <= 0 || getX() >= getWorld().getWidth() - 1) {
+            xSpeed = -xSpeed; // Reverse x direction
+            // Adjust position to prevent sticking to the wall
+            if (getX() <= 0) {
+                setLocation(1, getY());
+            } else {
+                setLocation(getWorld().getWidth() - 2, getY());
             }
         }
+        if (getY() <= 0 || getY() >= getWorld().getHeight() - 1) {
+            ySpeed = -ySpeed; // Reverse y direction
+            // Same thing here
+            if (getY() <= 0) {
+                setLocation(getX(), 1);
+            } else {
+                setLocation(getX(), getWorld().getHeight() - 2);
+            }
+        }
+    }
+
+    @Override
+    protected void reverseDirection() {
+        //left empty on purpose
     }
 }
