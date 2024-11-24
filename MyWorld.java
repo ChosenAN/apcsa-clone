@@ -3,14 +3,14 @@ import java.util.List;
 
 public class MyWorld extends World {
     private boolean enemiesActive = true;
-    private int level = 5;
+    private int level = 3;
     private int score = 0;
     private ScoreBoard scoreBoard;
     private LevelDisplay levelDisplay;
     private Player player;
     private boolean gameOver = false;
     private int levelTimer = 0;
-    private static final int LEVEL_DURATION = 1200; // 20 seconds at 60 fps
+    private static final int LEVEL_DURATION = 900; // 20 seconds at 60 fps
     private static final int MAX_LEVEL = 10; // Update to 10 levels
     private int protectedTime = 180; // 3 seconds of protected time at 60 fps
 
@@ -89,6 +89,19 @@ public class MyWorld extends World {
                 bounceEnemies = 0;
                 randomEnemies = 8;
                 chaseEnemies = 8;
+                break;
+            case 50:
+                bounceEnemies = 10;
+                randomEnemies = 10;
+                chaseEnemies = 15;
+                break;
+            case 100:
+                bounceEnemies = 25;
+                randomEnemies = 10;
+                chaseEnemies = 5;
+                break;
+            case 1000:
+                chaseEnemies = 7;
                 break;
         }
         

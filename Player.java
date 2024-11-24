@@ -10,8 +10,7 @@ public class Player extends Actor {
     private int size = 30;
     private boolean alive = true;
     private boolean isVisible = true;
-    private GreenfootImage playerImage;
-    private GreenfootImage invisibleImage;
+
 
     // Trail variables
     private LinkedList<Actor> trail;
@@ -20,14 +19,11 @@ public class Player extends Actor {
     private int trailCounter = 0;
 
     public Player() {
-        playerImage = new GreenfootImage(size, size);
-        playerImage.setColor(Color.YELLOW);
-        playerImage.fillOval(0, 0, size-1, size-1);
+        //playerImage = new GreenfootImage(size, size);
+        //invisibleImage = new GreenfootImage(size, size);
+        //invisibleImage.setTransparency(0);
 
-        invisibleImage = new GreenfootImage(size, size);
-        invisibleImage.setTransparency(0);
-
-        setImage(playerImage);
+        //setImage(playerImage);
         
         // Initialize trail
         trail = new LinkedList<>();
@@ -110,12 +106,12 @@ public class Player extends Actor {
     
     public void toggleVisibility() {
         isVisible = !isVisible;
-        setImage(isVisible ? playerImage : invisibleImage);
+        //setImage(isVisible ? playerImage : invisibleImage);
     }
     
     public void setVisible(boolean visible) {
         isVisible = visible;
-        setImage(isVisible ? playerImage : invisibleImage);
+        //setImage(isVisible ? playerImage : invisibleImage);
     }
     
     public boolean isAlive() {
@@ -129,7 +125,7 @@ public class Player extends Actor {
     public void reset() {
         alive = true;
         isVisible = true;
-        setImage(playerImage);
+        //setImage(playerImage);
         vx = 0;
         vy = 0;
         clearTrail();

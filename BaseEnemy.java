@@ -6,19 +6,9 @@ public abstract class BaseEnemy extends Actor
     protected int size = 20;
     protected Color color;
     
-    public BaseEnemy(int speed, Color color)
+    public BaseEnemy(int speed)
     {
         this.speed = speed;
-        this.color = color;
-        createImage();
-    }
-    
-    protected void createImage()
-    {
-        setImage(new GreenfootImage(size, size));
-        GreenfootImage img = getImage();
-        img.setColor(color);
-        img.fillOval(0, 0, size-1, size-1);
     }
     
     public void destroy()

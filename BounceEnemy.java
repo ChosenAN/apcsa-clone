@@ -5,7 +5,9 @@ public class BounceEnemy extends BaseEnemy {
     private int ySpeed;
 
     public BounceEnemy(int speed) {
-        super(speed, Color.GREEN);
+        super(speed);
+        GreenfootImage playerImage = new GreenfootImage("greenalien.png");
+        setImage(playerImage);
         // Initialize random direction
         double angle = Math.toRadians(Greenfoot.getRandomNumber(360));
         xSpeed = (int)(Math.cos(angle) * speed);

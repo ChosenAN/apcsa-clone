@@ -2,7 +2,9 @@ import greenfoot.*;
 import java.util.List;
 public class ChaseEnemy extends BaseEnemy {
     public ChaseEnemy(int speed) {
-        super(speed, Color.BLUE);
+        super(speed);
+        GreenfootImage playerImage = new GreenfootImage("bluealien.png");
+        setImage(playerImage);
     }
 
     @Override

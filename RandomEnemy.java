@@ -6,7 +6,9 @@ public class RandomEnemy extends BaseEnemy {
     private int direction;
 
     public RandomEnemy(int speed) {
-        super(speed, Color.RED);
+        super(speed);
+        GreenfootImage playerImage = new GreenfootImage("redalien.png");
+        setImage(playerImage);
         direction = Greenfoot.getRandomNumber(360);
         moveTime = Greenfoot.getRandomNumber(50) + 50;
     }
